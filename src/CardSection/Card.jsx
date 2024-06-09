@@ -5,9 +5,28 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
-import "./Card.css"; // Import the CSS file
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+
+import "./Card.css";
+
+const useStyles = makeStyles({
+  card: {
+    maxWidth: 345,
+    marginBottom: 20,
+  },
+  media: {
+    height: 140,
+  },
+  pagination: {
+    marginTop: 20,
+    display: "flex",
+    justifyContent: "center",
+  },
+});
 
 const App = () => {
+  const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
@@ -39,18 +58,18 @@ const App = () => {
   };
 
   return (
-    <div className="container">
-      <div className="grid-container">
+    <Box sx={{ flexGrow: 1, padding: 3 }}>
+      <Grid container spacing={2}>
         {currentPosts.map((post) => (
-          <div className="grid-item" key={post.id}>
-            <Card className="card">
+          <Grid item xs={12} sm={6} md={4} lg={3} key={post.id}>
+            <Card className={classes.card}>
               <CardActionArea
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <CardMedia
-                  className="media"
+                  className={classes.media}
                   image={post.thumbnailUrl}
                   title={post.title}
                 />
@@ -64,17 +83,17 @@ const App = () => {
                 </CardContent>
               </CardActionArea>
             </Card>
-          </div>
+          </Grid>
         ))}
-      </div>
+      </Grid>
       <Pagination
         count={Math.ceil(posts.length / postsPerPage)}
         page={currentPage}
         onChange={handlePageChange}
         color="primary"
-        className="pagination"
+        className={classes.pagination}
       />
-    </div>
+    </Box>
   );
 };
 
